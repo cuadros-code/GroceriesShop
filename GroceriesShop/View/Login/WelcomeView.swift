@@ -10,14 +10,14 @@ import SwiftUI
 struct WelcomeView: View {
     var body: some View {
         ZStack {
-            Image("welcom_bg")
+            Image(.welcomBg)
                 .resizable()
                 .scaledToFill()
                 .frame(width: .screenWidth, height: .screenHeight)
                 
             VStack {
                 Spacer()
-                Image("app_logo")
+                Image(.appLogo)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 60, height: 60)
@@ -34,8 +34,10 @@ struct WelcomeView: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 30)
                 
-                RoundedButton(title: "Get Started") {
-                    print("Jevin")
+                NavigationLink {
+                    SignInView()
+                } label: {
+                    RoundedButton(title: "Get Started") {}
                 }
 
                 Spacer()
@@ -53,5 +55,7 @@ struct WelcomeView: View {
 }
 
 #Preview {
-    WelcomeView()
+    NavigationView {
+        WelcomeView()
+    }
 }

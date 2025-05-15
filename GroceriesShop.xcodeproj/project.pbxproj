@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B0877582DD2E94F001F3295 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 1B0877572DD2E94F001F3295 /* README.md */; };
+		1BFFB7602DD544AB00A20E4F /* CountryPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 1BFFB75F2DD544AB00A20E4F /* CountryPicker */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BFFB7602DD544AB00A20E4F /* CountryPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +86,7 @@
 			);
 			name = GroceriesShop;
 			packageProductDependencies = (
+				1BFFB75F2DD544AB00A20E4F /* CountryPicker */,
 			);
 			productName = GroceriesShop;
 			productReference = 1B08771C2DD2E13B001F3295 /* GroceriesShop.app */;
@@ -113,6 +116,9 @@
 			);
 			mainGroup = 1B0877132DD2E13B001F3295;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1BFFB75E2DD544AB00A20E4F /* XCRemoteSwiftPackageReference "CountryPicker" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1B08771D2DD2E13B001F3295 /* Products */;
 			projectDirPath = "";
@@ -281,6 +287,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -316,6 +323,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -356,6 +364,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1BFFB75E2DD544AB00A20E4F /* XCRemoteSwiftPackageReference "CountryPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mobven/CountryPicker";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1BFFB75F2DD544AB00A20E4F /* CountryPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1BFFB75E2DD544AB00A20E4F /* XCRemoteSwiftPackageReference "CountryPicker" */;
+			productName = CountryPicker;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1B0877142DD2E13B001F3295 /* Project object */;
 }
