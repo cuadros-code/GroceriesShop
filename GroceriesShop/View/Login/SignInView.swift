@@ -16,7 +16,6 @@ struct SignInView: View {
     
     var body: some View {
         ZStack {
-            
             Image(.bottomBg)
                 .resizable()
                 .scaledToFill()
@@ -29,7 +28,6 @@ struct SignInView: View {
                     .frame(width: .screenWidth, height: .screenWidth)
                 
                 Spacer()
-                
             }
             
             ScrollView {
@@ -122,8 +120,6 @@ struct SignInView: View {
                 .padding(.horizontal, 20)
                 .frame(width: .screenWidth, alignment: .leading)
                 .padding(.top, .topInsets + .screenWidth)
-                
-                
                 
             }
             
