@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     
+    @Environment(\.dismiss) var dismiss
     @State private var email = ""
     @State private var password = ""
     
@@ -22,6 +23,20 @@ struct LoginView: View {
                 .frame(width: .screenWidth, height: .screenHeight)
             
             VStack {
+                HStack {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(.back)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                    }
+                    Spacer()
+                }
+                .padding(.top, .topInsets )
+                .padding(.bottom, .bottomInsets)
+                
                 Image(.colorLogo)
                     .resizable()
                     .scaledToFit()
@@ -115,12 +130,15 @@ struct LoginView: View {
                     }
                     
                 }
-                
+                Spacer()
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 40)
             
         }
+        .navigationTitle("")
+        .navigationBarBackButtonHidden(true)
+        .navigationBarHidden(true)
         .ignoresSafeArea()
     }
 }
