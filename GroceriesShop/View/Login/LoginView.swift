@@ -10,10 +10,7 @@ import SwiftUI
 struct LoginView: View {
     
     @Environment(\.dismiss) var dismiss
-    @State private var email = ""
-    @State private var password = ""
-    
-    @State private var isSecure = true
+    @StateObject var loginVM = MainViewModel.shared;
     
     var body: some View {
         ZStack {
@@ -63,7 +60,7 @@ struct LoginView: View {
                         .foregroundColor(.textTitle)
                         .padding(.bottom, 5)
                     
-                    TextField("Enter your email", text: $email)
+                    TextField("Enter your email", text: $loginVM.textEmail)
                         .keyboardType(.emailAddress)
                         .padding(.bottom, 5)
                     
@@ -79,23 +76,30 @@ struct LoginView: View {
                         
                         HStack {
                             Group {
-                                if isSecure {
-                                    SecureField("Enter your password", text: $password)
-                                        .textContentType(.password)
-                                        .padding(.bottom, 5)
-                                        .frame(height: 30)
+                                if loginVM.isShowPassword {
+                                    TextField(
+                                        "Enter your password",
+                                        text: $loginVM.textPassword
+                                    )
+                                    .padding(.bottom, 5)
+                                    .frame(height: 30)
+                                    
                                 } else {
-                                    TextField("Enter your password", text: $password)
-                                        .padding(.bottom, 5)
-                                        .frame(height: 30)
+                                    SecureField(
+                                        "Enter your password",
+                                        text: $loginVM.textPassword
+                                    )
+                                    .textContentType(.password)
+                                    .padding(.bottom, 5)
+                                    .frame(height: 30)
                                 }
-                            }.animation(.easeInOut(duration: 0.2), value: isSecure)
+                            }.animation(.easeInOut(duration: 0.2), value: loginVM.isShowPassword)
                             
                             Button {
-                                isSecure.toggle()
+                                loginVM.isShowPassword.toggle()
                             } label: {
                                 Image(
-                                    systemName: isSecure ? "eye.slash.fill" : "eye.fill"
+                                    systemName: loginVM.isShowPassword ? "eye.slash.fill" : "eye.fill"
                                 )
                                 .frame(width: 20, height: 20)
                                 .foregroundStyle(.gray)
