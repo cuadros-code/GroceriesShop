@@ -68,6 +68,21 @@ struct LoginView: View {
                 .padding(.bottom, .screenWidth * 0.03)
                 
                 RoundedButton(title: "Log In") {
+                    let data: NSDictionary = [
+                        "email": "cuadros@gmail.com",
+                        "password": "123456",
+                        "dervice_token": ""
+                    ]
+                    ServiceCall
+                        .post(
+                            parameters: data,
+                            path: "/login",
+                            withSuccess: { ok in
+                                
+                            },
+                            failure: { error in
+                                
+                            })
                 }
                 .padding(.bottom, .screenWidth * 0.05)
                 
