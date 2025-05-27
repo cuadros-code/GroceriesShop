@@ -22,12 +22,12 @@ struct LineTextField: View {
                 .foregroundColor(.textTitle)
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             
-            if isPassword {
-                SecureField(placeholder, text: $text)
-            } else {
-                TextField(placeholder, text: $text)
-                    .keyboardType(keyboardType)
-            }
+            
+            TextField(placeholder, text: $text)
+                .autocorrectionDisabled()
+                .keyboardType(keyboardType)
+                .frame(height: 35)
+            
             Divider()
         }
     }
@@ -51,11 +51,15 @@ struct LineSecureField: View {
             
             if isShowPassword {
                 TextField(placeholder, text: $text)
+                    .autocorrectionDisabled()
                     .modifier(ShowButton(isShow: $isShowPassword))
+                    .frame(height: 35)
                 
             } else {
                 SecureField(placeholder, text: $text)
+                    .autocorrectionDisabled()
                     .modifier(ShowButton(isShow: $isShowPassword))
+                    .frame(height: 35)
             }
             Divider()
         }
