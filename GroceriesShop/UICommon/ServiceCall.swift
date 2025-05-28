@@ -30,7 +30,7 @@ class ServiceCall {
                 )
                 
                 var request = URLRequest(
-                    url: URL(string: ServiceCall.baseUrl + path)!,
+                    url: URL(string: path)!,
                     timeoutInterval: 20 // seconds
                 )
                 request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -38,12 +38,35 @@ class ServiceCall {
                 request.httpMethod = "POST"
                 request.httpBody = parametersData
                 
-                let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                    guard let data = data else {
-                        print(String(describing: error))
-                        return
+                let task = URLSession.shared.dataTask(with: request) {
+                    data,
+                    response,
+                    error in
+                    
+                    
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            failure(error)
+                        }
+                    } else {
+                        if let data = data {
+                            do {
+                                let jsonDictionary = try JSONSerialization.jsonObject(
+                                    with: data,
+                                    options: .mutableContainers
+                                ) as? NSDictionary
+                                
+                                DispatchQueue.main.async {
+                                    withSuccess(jsonDictionary)
+                                }
+                                
+                            } catch {
+                                DispatchQueue.main.async {
+                                    failure(error)
+                                }
+                            }
+                        }
                     }
-                    print(String(data: data, encoding: .utf8)!)
                 }
                 
                 task.resume()
@@ -73,6 +96,6 @@ class ServiceCall {
         return data
     }
     
-
-
+    
+    
 }

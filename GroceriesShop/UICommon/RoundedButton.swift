@@ -20,13 +20,14 @@ struct RoundedButton: View {
                 .font(.customFont(.semibold, fontSize: 18))
                 .foregroundStyle(.white)
                 .multilineTextAlignment(.center)
+                .frame(
+                    minWidth: 0,
+                    maxWidth: .infinity,
+                    minHeight: 60,
+                    maxHeight: 60
+                )
         }
-        .frame(
-            minWidth: 0,
-            maxWidth: .infinity,
-            minHeight: 60,
-            maxHeight: 60
-        )
+        
         .background(Color.primary)
         .clipShape(RoundedRectangle(cornerRadius: 20))
     }
@@ -34,7 +35,7 @@ struct RoundedButton: View {
 
 #Preview {
     RoundedButton {
-        
+        print("Test")
     }
         .padding(20)
 }
