@@ -18,7 +18,7 @@ class ServiceCall {
         parameters: NSDictionary,
         path: String,
         isToken: Bool = false,
-        withSuccess: @escaping ((_ responseObj: AnyObject?) -> ()),
+        withSuccess: @escaping ((_ responseObj: Data?) -> ()),
         failure: @escaping ((_ responseObj: Error?) -> ())
     ) {
         
@@ -43,29 +43,17 @@ class ServiceCall {
                     response,
                     error in
                     
-                    
                     if let error = error {
                         DispatchQueue.main.async {
                             failure(error)
                         }
-                    } else {
-                        if let data = data {
-                            do {
-                                let jsonDictionary = try JSONSerialization.jsonObject(
-                                    with: data,
-                                    options: .mutableContainers
-                                ) as? NSDictionary
-                                
-                                DispatchQueue.main.async {
-                                    withSuccess(jsonDictionary)
-                                }
-                                
-                            } catch {
-                                DispatchQueue.main.async {
-                                    failure(error)
-                                }
-                            }
+                        return
+                    }
+                    if let data = data {
+                        DispatchQueue.main.async {
+                            withSuccess(data)
                         }
+                        return
                     }
                 }
                 

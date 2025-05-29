@@ -10,9 +10,12 @@ import SwiftUI
 class MainViewModel: ObservableObject {
     static var shared: MainViewModel = MainViewModel()
     
-    @Published var textEmail: String = "test@gmail.com"
+    @Published var textEmail: String = "cuadros@gmail.com"
     @Published var textPassword: String = "123456"
     @Published var isShowPassword: Bool = false
+    
+    @Published var showError = false
+    @Published var errorMessage = ""
     
     //MARK: ServiceCall
     func serviceCallLogin() {
@@ -26,17 +29,37 @@ class MainViewModel: ObservableObject {
             path: Globs.SV_LOGIN,
             withSuccess: { responseObj in
                 
-                if let response = responseObj as? NSDictionary {
-                    if response.value(forKey: KKey.status) as? String ?? "" == "1" {
-                        
-                    } else {
-                        
+                if let data = responseObj {
+                    guard let statusCode = try? JSONDecoder().decode(Status.self, from: data) else {
+                        print("error data")
+                        return
                     }
+                    
+                    switch statusCode.status {
+                    case .success:
+                        guard let userJson = try? JSONDecoder().decode(UserModel.self, from: data) else {
+                            self.errorMessage = "Error"
+                            self.showError = true
+                            return
+                        }
+                        print(userJson)
+                        
+                    case .failure:
+                        guard let error = try? JSONDecoder().decode(UserModelError.self, from: data) else {
+                            self.errorMessage = "Error"
+                            self.showError = true
+                            return
+                        }
+                        self.errorMessage = error.message
+                        self.showError = true
+                    }
+                    
                 }
                 
             },
             failure: { err in
-                print("ERROR")
+                self.errorMessage = err?.localizedDescription ?? "Fail"
+                self.showError = true
             }
         )
     }
@@ -67,4 +90,19 @@ struct Payload: Codable {
         case status
         case createdDate = "created_date"
     }
+}
+
+// MARK: - UserModelError
+struct UserModelError: Codable {
+    let status, message: String
+}
+
+// MARK: - StatusCode
+enum StatusCode: String, Decodable {
+    case success = "1"
+    case failure = "0"
+}
+
+struct Status: Decodable {
+    let status: StatusCode
 }
