@@ -20,6 +20,18 @@ class MainViewModel: ObservableObject {
     //MARK: ServiceCall
     func serviceCallLogin() {
         
+        if textEmail.isEmpty {
+            self.errorMessage = "Please enter valid email address"
+            self.showError = true
+            return
+        }
+        
+        if textPassword.isEmpty {
+            self.errorMessage = "Please enter valid password"
+            self.showError = true
+            return
+        }
+        
         ServiceCall.post(
             parameters: [
                 "email": textEmail,

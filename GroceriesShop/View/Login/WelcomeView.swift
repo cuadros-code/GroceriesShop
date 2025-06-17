@@ -35,11 +35,22 @@ struct WelcomeView: View {
                     .padding(.bottom, 30)
                 
                 NavigationLink {
-//                    SignInView()
                     LoginView()
                 } label: {
-                    RoundedButton(title: "Get Started") {}
+                    Text("Get Started")
+                        .font(.customFont(.semibold, fontSize: 18))
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.center)
                 }
+                .frame(
+                    minWidth: 0,
+                    maxWidth: .infinity,
+                    minHeight: 60,
+                    maxHeight: 60
+                )
+                .background(Color.primary)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+
 
                 Spacer()
                     .frame(height: 100)
