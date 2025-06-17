@@ -52,12 +52,14 @@ struct LineSecureField: View {
             if isShowPassword {
                 TextField(placeholder, text: $text)
                     .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
                     .modifier(ShowButton(isShow: $isShowPassword))
                     .frame(height: 35)
                 
             } else {
                 SecureField(placeholder, text: $text)
                     .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
                     .modifier(ShowButton(isShow: $isShowPassword))
                     .frame(height: 35)
             }

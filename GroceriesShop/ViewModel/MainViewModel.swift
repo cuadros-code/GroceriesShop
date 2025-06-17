@@ -10,17 +10,24 @@ import SwiftUI
 class MainViewModel: ObservableObject {
     static var shared: MainViewModel = MainViewModel()
     
-    @Published var textEmail: String = "cuadros@gmail.com"
-    @Published var textPassword: String = "123456"
+    @Published var textEmail: String = ""
+    @Published var textPassword: String = ""
     @Published var isShowPassword: Bool = false
     
     @Published var showError = false
     @Published var errorMessage = ""
     
+    init() {
+        #if DEBUG
+        textEmail = "cuadros@gmail.com"
+        textPassword = "123456"
+        #endif
+    }
+    
     //MARK: ServiceCall
     func serviceCallLogin() {
         
-        if textEmail.isEmpty {
+        if !textEmail.isValidEmail {
             self.errorMessage = "Please enter valid email address"
             self.showError = true
             return
@@ -54,7 +61,8 @@ class MainViewModel: ObservableObject {
                             self.showError = true
                             return
                         }
-                        print(userJson)
+                        self.errorMessage = userJson.message
+                        self.showError = true
                         
                     case .failure:
                         guard let error = try? JSONDecoder().decode(UserModelError.self, from: data) else {

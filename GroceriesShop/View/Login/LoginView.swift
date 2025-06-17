@@ -51,7 +51,8 @@ struct LoginView: View {
                 
                 LineSecureField(
                     text: $loginVM.textPassword,
-                    isShowPassword: $loginVM.isShowPassword, title: "Password",
+                    isShowPassword: $loginVM.isShowPassword,
+                    title: "Password",
                     placeholder: "Enter your password"
                 )
                     .padding(.bottom, .screenWidth * 0.02)
