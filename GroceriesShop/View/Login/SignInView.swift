@@ -57,6 +57,25 @@ struct SignInView: View {
                             .frame(minWidth: 0, maxWidth: .infinity)
                         
                     }
+                    
+                    NavigationLink {
+                        LoginView()
+                    } label: {
+                        Text("Continue with Email")
+                            .font(.customFont(.semibold, fontSize: 18))
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(
+                        minWidth: 0,
+                        maxWidth: .infinity,
+                        minHeight: 60,
+                        maxHeight: 60
+                    )
+                    .background(Color.primary)
+                    .clipShape(RoundedRectangle(cornerRadius: 19))
+                    .padding(.bottom, 8)
+                    
                     Divider()
                         .padding(.bottom, 30)
                     
@@ -108,6 +127,7 @@ struct SignInView: View {
                             .foregroundColor(.white)
                             .multilineTextAlignment(.center)
                     }
+                    
                     .frame(
                         minWidth: 0,
                         maxWidth: .infinity,
@@ -139,4 +159,5 @@ struct SignInView: View {
 
 #Preview {
     SignInView()
+        .background(.white)
 }
