@@ -43,7 +43,7 @@ struct SignUpView: View {
                     .padding(.bottom, .screenWidth * 0.1)
                 
                 LineTextField(
-                    text: $loginVM.textEmail,
+                    text: $loginVM.textUsername,
                     title: "Username",
                     placeholder: "Enter your username",
                     keyboardType: .default
@@ -93,7 +93,9 @@ struct SignUpView: View {
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 .padding(.bottom, .screenWidth * 0.03)
                 
-                RoundedButton(title: "Sign Up") {                }
+                RoundedButton(title: "Sign Up") {
+                    loginVM.serviceCallSignup()
+                }
                     .padding(.bottom, .screenWidth * 0.05)
                 
                 

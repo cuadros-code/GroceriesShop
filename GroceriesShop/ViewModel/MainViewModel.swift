@@ -10,6 +10,7 @@ import SwiftUI
 class MainViewModel: ObservableObject {
     static var shared: MainViewModel = MainViewModel()
     
+    @Published var textUsername: String = ""
     @Published var textEmail: String = ""
     @Published var textPassword: String = ""
     @Published var isShowPassword: Bool = false
@@ -19,12 +20,12 @@ class MainViewModel: ObservableObject {
     
     init() {
         #if DEBUG
+        textUsername = "user4"
         textEmail = "cuadros@gmail.com"
         textPassword = "123456"
         #endif
     }
     
-    //MARK: ServiceCall
     func serviceCallLogin() {
         
         if !textEmail.isValidEmail {
@@ -84,8 +85,80 @@ class MainViewModel: ObservableObject {
         )
     }
     
+    func serviceCallSignup() {
+        
+        if textUsername.isEmpty {
+            self.errorMessage = "Please enter a username"
+            self.showError = true
+            return
+        }
+        
+        if !textEmail.isValidEmail {
+            self.errorMessage = "Please enter valid email address"
+            self.showError = true
+            return
+        }
+        
+        if textPassword.isEmpty {
+            self.errorMessage = "Please enter valid password"
+            self.showError = true
+            return
+        }
+        
+        ServiceCall.post(
+            parameters: [
+                "username": textUsername,
+                "email": textEmail,
+                "password": textPassword,
+                "dervice_token": ""
+            ],
+            path: Globs.SV_SIGNUP,
+            withSuccess: { responseObj in
+                
+                if let data = responseObj {
+                    guard let statusCode = try? JSONDecoder().decode(Status.self, from: data) else {
+                        print("error data")
+                        return
+                    }
+                    
+                    switch statusCode.status {
+                    case .success:
+                        guard let userJson = try? JSONDecoder().decode(UserModelSignUp.self, from: data) else {
+                            self.errorMessage = "Error"
+                            self.showError = true
+                            return
+                        }
+                        self.errorMessage = userJson.message
+                        self.showError = true
+                        
+                    case .failure:
+                        guard let error = try? JSONDecoder().decode(UserModelError.self, from: data) else {
+                            self.errorMessage = "Error"
+                            self.showError = true
+                            return
+                        }
+                        self.errorMessage = error.message
+                        self.showError = true
+                    }
+                    
+                }
+                
+            },
+            failure: { err in
+                self.errorMessage = err?.localizedDescription ?? "Fail"
+                self.showError = true
+            }
+        )
+    }
+    
 }
 
+// MARK: - UserModel
+struct UserModelSignUp: Codable {
+    let status: String
+    let payload: PayloadSignUp
+    let message: String
+}
 
 // MARK: - UserModel
 struct UserModel: Codable {
@@ -107,6 +180,26 @@ struct Payload: Codable {
         case username, name, email, mobile
         case mobileCode = "mobile_code"
         case authToken = "auth_token"
+        case status
+        case createdDate = "created_date"
+    }
+}
+
+// MARK: - PayloadSignUp
+struct PayloadSignUp: Codable {
+    let userID: Int
+    let username, name, email, mobile: String
+    let mobileCode, authToken: String
+    let password: String
+    let status: Int
+    let createdDate: String
+    
+    enum CodingKeys: String, CodingKey {
+        case userID = "user_id"
+        case username, name, email, mobile
+        case mobileCode = "mobile_code"
+        case authToken = "auth_token"
+        case password
         case status
         case createdDate = "created_date"
     }
