@@ -18,12 +18,31 @@ class MainViewModel: ObservableObject {
     @Published var showError = false
     @Published var errorMessage = ""
     
+    @Published var isUserLogin = false
+    @Published var userObj: UserModel!
+    
     init() {
         #if DEBUG
         textUsername = "user4"
         textEmail = "cuadros@gmail.com"
         textPassword = "123456"
         #endif
+    }
+    
+    func setUserData(userPayload: UserModel){
+        
+        Utils.UDSet(data: userPayload, key: Globs.userPayload)
+        Utils.UDSet(data: true, key: Globs.userLogin)
+        
+        userObj = userPayload
+        isUserLogin = true
+        
+        textUsername = ""
+        textEmail = ""
+        textPassword = ""
+        isShowPassword = false
+        showError = false
+        errorMessage = ""
     }
     
     func serviceCallLogin() {
@@ -57,11 +76,13 @@ class MainViewModel: ObservableObject {
                     
                     switch statusCode.status {
                     case .success:
-                        guard let userJson = try? JSONDecoder().decode(UserModel.self, from: data) else {
+                        guard let userJson = try? JSONDecoder().decode(AuthModel.self, from: data) else {
                             self.errorMessage = "Error"
                             self.showError = true
                             return
                         }
+                        self.setUserData(userPayload: userJson.payload)
+                        
                         self.errorMessage = userJson.message
                         self.showError = true
                         
@@ -123,11 +144,13 @@ class MainViewModel: ObservableObject {
                     
                     switch statusCode.status {
                     case .success:
-                        guard let userJson = try? JSONDecoder().decode(UserModelSignUp.self, from: data) else {
+                        guard let userJson = try? JSONDecoder().decode(AuthModel.self, from: data) else {
                             self.errorMessage = "Error"
                             self.showError = true
                             return
                         }
+                        self.setUserData(userPayload: userJson.payload)
+                        
                         self.errorMessage = userJson.message
                         self.showError = true
                         
@@ -153,56 +176,12 @@ class MainViewModel: ObservableObject {
     
 }
 
-// MARK: - UserModel
-struct UserModelSignUp: Codable {
+
+// MARK: - AuthModel
+struct AuthModel: Codable {
     let status: String
-    let payload: PayloadSignUp
+    let payload: UserModel
     let message: String
-}
-
-// MARK: - UserModel
-struct UserModel: Codable {
-    let status: String
-    let payload: Payload
-    let message: String
-}
-
-// MARK: - Payload
-struct Payload: Codable {
-    let userID: Int
-    let username, name, email, mobile: String
-    let mobileCode, authToken: String
-    let status: Int
-    let createdDate: String
-    
-    enum CodingKeys: String, CodingKey {
-        case userID = "user_id"
-        case username, name, email, mobile
-        case mobileCode = "mobile_code"
-        case authToken = "auth_token"
-        case status
-        case createdDate = "created_date"
-    }
-}
-
-// MARK: - PayloadSignUp
-struct PayloadSignUp: Codable {
-    let userID: Int
-    let username, name, email, mobile: String
-    let mobileCode, authToken: String
-    let password: String
-    let status: Int
-    let createdDate: String
-    
-    enum CodingKeys: String, CodingKey {
-        case userID = "user_id"
-        case username, name, email, mobile
-        case mobileCode = "mobile_code"
-        case authToken = "auth_token"
-        case password
-        case status
-        case createdDate = "created_date"
-    }
 }
 
 // MARK: - UserModelError

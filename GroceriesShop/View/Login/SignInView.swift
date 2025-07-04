@@ -139,7 +139,7 @@ struct SignInView: View {
                 }
                 .padding(.horizontal, 20)
                 .frame(width: .screenWidth, alignment: .leading)
-                .padding(.top, .topInsets + .screenWidth)
+                .padding(.top, .topInsets + .screenWidth - 50)
                 
             }
             
