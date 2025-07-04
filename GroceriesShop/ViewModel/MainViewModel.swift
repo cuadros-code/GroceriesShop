@@ -27,22 +27,38 @@ class MainViewModel: ObservableObject {
         textEmail = "cuadros@gmail.com"
         textPassword = "123456"
         #endif
+        
+        self.validateUserAuth()
     }
     
-    func setUserData(userPayload: UserModel){
+    func validateUserAuth() {
+        guard let data = Utils.UDValue(key: Globs.userPayload) as? Data else { return }
         
+        guard let decodeUser = try? JSONDecoder().decode(UserModel.self, from: data ) else {
+            return
+        }
+        
+        self.userObj = decodeUser
+        self.isUserLogin = true
+    }
+    
+    func saveAuthState(_ userPayload: UserModel){
         Utils.UDSet(data: userPayload, key: Globs.userPayload)
         Utils.UDSet(data: true, key: Globs.userLogin)
         
         userObj = userPayload
         isUserLogin = true
         
-        textUsername = ""
-        textEmail = ""
-        textPassword = ""
         isShowPassword = false
         showError = false
         errorMessage = ""
+    }
+    
+    func logout() {
+        userObj = nil
+        isUserLogin = false
+        Utils.UDRemove(key: Globs.userPayload)
+        Utils.UDSet(data: false, key: Globs.userLogin)
     }
     
     func serviceCallLogin() {
@@ -81,7 +97,7 @@ class MainViewModel: ObservableObject {
                             self.showError = true
                             return
                         }
-                        self.setUserData(userPayload: userJson.payload)
+                        self.saveAuthState(userJson.payload)
                         
                         self.errorMessage = userJson.message
                         self.showError = true
@@ -149,7 +165,7 @@ class MainViewModel: ObservableObject {
                             self.showError = true
                             return
                         }
-                        self.setUserData(userPayload: userJson.payload)
+                        self.saveAuthState(userJson.payload)
                         
                         self.errorMessage = userJson.message
                         self.showError = true
