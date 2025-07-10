@@ -29,98 +29,59 @@ struct MainTabView: View {
             }
             
             HStack {
-                Button {
-                    
-                } label: {
-                    VStack {
-                        Image(.storeTab)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 25, height: 25)
-                        
-                        Text("Shop")
-                            .font(.customFont(.semibold, fontSize: 14))
-                    }
-                }
-                .foregroundColor(
-                    homeVM.selectedTab == 0 ? .primary : .primaryText
-                )
-                .frame(minWidth: 0, maxWidth: .infinity)
                 
-                Button {
-                    
-                } label: {
-                    VStack {
-                        Image(.exploreTab)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 25, height: 25)
-                        
-                        Text("Explore")
-                            .font(.customFont(.semibold, fontSize: 14))
-                    }
+                TabButton(
+                    title: "Shop",
+                    icon: .storeTab,
+                    tag: .shop,
+                    selectedTab: $homeVM.selectedTab
+                ) {
+                    homeVM.selectedTab = 0
                 }
-                .foregroundColor(
-                    homeVM.selectedTab == 1 ? .primary : .primaryText
-                )
-                .frame(minWidth: 0, maxWidth: .infinity)
                 
-                Button {
-                    
-                } label: {
-                    VStack {
-                        Image(.cartTab)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 25, height: 25)
-                        
-                        Text("Car")
-                            .font(.customFont(.semibold, fontSize: 14))
-                    }
+                TabButton(
+                    title: "Explore",
+                    icon: .exploreTab,
+                    tag: .explore,
+                    selectedTab: $homeVM.selectedTab
+                ) {
+                    homeVM.selectedTab = 1
                 }
-                .foregroundColor(
-                    homeVM.selectedTab == 2 ? .primary : .primaryText
-                )
-                .frame(minWidth: 0, maxWidth: .infinity)
                 
-                Button {
-                    
-                } label: {
-                    VStack {
-                        Image(.favTab)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 25, height: 25)
-                        
-                        Text("Favorite")
-                            .font(.customFont(.semibold, fontSize: 14))
-                    }
+                TabButton(
+                    title: "Car",
+                    icon: .cartTab,
+                    tag: .cart,
+                    selectedTab: $homeVM.selectedTab
+                ) {
+                    homeVM.selectedTab = 2
                 }
-                .foregroundColor(
-                    homeVM.selectedTab == 3 ? .primary : .primaryText
-                )
-                .frame(minWidth: 0, maxWidth: .infinity)
                 
-                Button {
-                    
-                } label: {
-                    VStack {
-                        Image(.accountTab)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 25, height: 25)
-                        
-                        Text("Account")
-                            .font(.customFont(.semibold, fontSize: 14))
-                    }
+                TabButton(
+                    title: "Favorite",
+                    icon: .favTab,
+                    tag: .favorite,
+                    selectedTab: $homeVM.selectedTab
+                ) {
+                    homeVM.selectedTab = 3
                 }
-                .foregroundColor(
-                    homeVM.selectedTab == 4 ? .primary : .primaryText
-                )
-                .frame(minWidth: 0, maxWidth: .infinity)
+                
+                TabButton(
+                    title: "Account",
+                    icon: .accountTab,
+                    tag: .account,
+                    selectedTab: $homeVM.selectedTab
+                ) {
+                    homeVM.selectedTab = 4
+                }
             }
+            .padding(.top, 10)
             .padding(.bottom, .bottomInsets)
             .padding(.horizontal, 10)
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .shadow(color: Color.black.opacity(0.10), radius: 3, x: 0, y: -2)
+            
             
         }
         .navigationTitle("")
