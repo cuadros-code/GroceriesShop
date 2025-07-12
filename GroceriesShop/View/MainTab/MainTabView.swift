@@ -24,9 +24,6 @@ struct MainTabView: View {
                 UIScrollView.appearance().isScrollEnabled = false
             } // Disable swipe navigation between tabs
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .onChange(of: homeVM.selectedTab) { oldValue, newValue in
-                debugPrint(newValue)
-            }
             
             HStack {
                 

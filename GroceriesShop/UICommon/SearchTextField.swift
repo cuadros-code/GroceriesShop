@@ -26,10 +26,10 @@ struct SearchTextField: View {
                 prompt: Text(placeholder).foregroundStyle(.black.opacity(0.7))
             )
                 .autocorrectionDisabled()
-                .frame(height: 35)
+                .frame(minWidth: 0, maxWidth: .infinity)
                 .accentColor(.black)
         }
-        .padding(10)
+        .padding(15)
         .background(.gray.opacity(0.1))
         .clipShape(RoundedRectangle(cornerRadius: 15))
     }

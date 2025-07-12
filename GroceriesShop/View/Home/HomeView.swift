@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @StateObject var homeVM = HomeViewModel.shared
+    
     var body: some View {
         ZStack {
             ScrollView {
@@ -26,8 +29,17 @@ struct HomeView: View {
                             .font(.customFont(.semibold, fontSize: 18))
                             .foregroundColor(.darkGray)
                     }
+                    
+                    SearchTextField(text: $homeVM.textSearch)
+                        .padding(20)
                 }
                 .padding(.top, .topInsets)
+                
+                Image(.bannerTop)
+                    .resizable()
+                    .scaledToFill()
+                
+                
             }
         }
         .ignoresSafeArea()
