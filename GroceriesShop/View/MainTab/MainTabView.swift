@@ -22,7 +22,7 @@ struct MainTabView: View {
             }
             .onAppear {
                 UIScrollView.appearance().isScrollEnabled = false
-            }
+            } // Disable swipe navigation between tabs
             .tabViewStyle(.page(indexDisplayMode: .never))
             .onChange(of: homeVM.selectedTab) { oldValue, newValue in
                 debugPrint(newValue)
